@@ -1,9 +1,11 @@
-<profiles>
-  <profile>
-    <id>spigot-repo</id>
-    <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-  </profile>
-</profiles>
+<project>
+  <profiles>
+    <profile>
+      <id>spigot-repo</id>
+      <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+    </profile>
+  </profiles>
+</project>
 
 <dependencies>
   <dependency>
