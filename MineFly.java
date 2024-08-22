@@ -1,7 +1,10 @@
 import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class MineFly extends JavaPlugin implements Listener {
@@ -9,7 +12,7 @@ public class MineFly extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         saveDefaultConfig();
-        // This line will register events, probably
+        // Register events with the server, probably
         getServer().getPluginManager().registerEvents(this, this);
     }
 
@@ -18,18 +21,26 @@ public class MineFly extends JavaPlugin implements Listener {
         Player player = event.getPlayer();
         if (event.isFlying()) {
             // When a player starts flying, these events are called
-            double flyingSpeed = getConfig().getDouble("set-atk-speed.flying", 20.0); //Flying speed can now be modified in config.yml
-            player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(flyingSpeed); // Is 20 too much?
+            double flyingSpeed = getConfig().getDouble("set-mining-speed.flying", 20.0);
+            updateMiningSpeed(player, flyingSpeed);
         } else {
             // When a player stops flying, these events are called
-            double notFlyingSpeed = getConfig().getDouble("set-atk-speed.not-flying", 4.0); //Base speed can now be modified in config.yml
-            player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(notFlyingSpeed); // Default speed of 4
+            double notFlyingSpeed = getConfig().getDouble("set-mining-speed.not-flying", 4.0);
+            updateMiningSpeed(player, notFlyingSpeed);
         }
 
-        if (getConfig().getString("set-atk-speed.flying") == null) {
-            getConfig().set("set-atk-speed.flying", 20.0);
-            getConfig().set("set-atk-speed.not-flying", 4.0);
+        // Save config.yml
+        FileConfiguration config = getConfig();
+        if (config.get("set-mining-speed.flying") == null) {
+            config.set("set-mining-speed.flying", 20.0);
+            config.set("set-mining-speed.not-flying", 4.0);
             saveConfig();
         }
+    }
+
+    private void updateMiningSpeed(Player player, double newSpeed) {
+        // Update the player's attack speed attribute
+        AttributeModifier speedModifier = new AttributeModifier("generic.mining_speed", newSpeed, AttributeModifier.Operation.ADD_NUMBER);
+        player.getAttribute(Attribute.GENERIC_MINING_SPEED).addModifier(speedModifier);
     }
 }
