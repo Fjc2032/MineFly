@@ -40,7 +40,7 @@ public class MineFly extends JavaPlugin implements Listener {
 
     private void updateMiningSpeed(Player player, double newSpeed) {
         // Update the player's attack speed attribute
-        AttributeModifier speedModifier = new AttributeModifier("generic.mining_speed", newSpeed, AttributeModifier.Operation.ADD_NUMBER);
+        AttributeModifier speedModifier = new AttributeModifier("generic.mining_speed", newSpeed, AttributeModifier.Operation.MULTIPLY_ADD); //I will need to test different operators eventually
         player.getAttribute(Attribute.GENERIC_MINING_SPEED).addModifier(speedModifier);
     }
 }
