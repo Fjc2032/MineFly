@@ -1,4 +1,4 @@
-public class MineFly extends JavaPlugin implements Listener {
+public class commands extends JavaPlugin implements Listener {
 
 @Override
   public void onEnable() {
@@ -13,4 +13,9 @@ public class MineFly extends JavaPlugin implements Listener {
       }
     }
   }
-} //Did I use too many brackets
+  @Override
+  public void onDisable() {
+    saveDefaultConfig();
+    getLogger.info("MineFly was disabled.");
+  }
+}
