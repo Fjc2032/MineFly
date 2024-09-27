@@ -1,3 +1,10 @@
 name: MineFly
 version: 0.9
-main: org.Bukkit
+main: me.fjc.minefly.MineFly
+api-version: 1.20
+authors: [ Fjc ]
+description: Break blocks faster while flying!
+
+commands:
+  minefly:
+
