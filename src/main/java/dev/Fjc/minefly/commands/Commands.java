@@ -1,21 +1,29 @@
-public class commands extends JavaPlugin implements Listener {
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.java.JavaPlugin;
 
-@Override
-  public void onEnable() {
-    if (alias.equalsIgnoreCase("MineFly")){
-      if (args.length == 0){ //If there are no args, do this:
-      sender.sendMessage(ChatColor.RED + "Missing arguments");
-      } else {
-        if (args [0].equalsIgnoreCase("reload")){ //If argument "reload" is present, do this:
-          reloadConfig();
-          sender.sendMessage(ChatColor.GREEN + "MineFly was successfully reloaded");
-        }
-      }
+public abstract class Commands extends JavaPlugin implements Listener {
+
+    public void onEnable() {
+        getServer().getPluginManager().registerEvents(this, this);
     }
-  }
-  @Override
-  public void onDisable() {
-    saveDefaultConfig();
-    getLogger.info("MineFly was disabled.");
-  }
+
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        Player player = (Player) sender;
+        if (!player.hasPermission("fjc.minefly")) {
+            sender.sendMessage(ChatColor.RED + "No permission, fool.");
+            return false;
+        } else {
+            if (command.getName().equals("mineflyreload")) {
+                reloadConfig();
+                sender.sendMessage(ChatColor.GREEN + "Plugin MineFly was successfully reloaded.");
+            }
+        }
+        return true;
+    }
 }
+
+
